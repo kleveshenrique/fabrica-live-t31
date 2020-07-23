@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    
+
+    <script>
+        class Calculadora {
+
+            somar() {
+                //var n1 = parseFloat(document.querySelectorAll("input")[0].value);
+                //var n2 = parseFloat(document.querySelectorAll("input")[1].value);
+                //var resultado = n1 + n2;
+                var number1 = parseFloat(document.getElementById("num1").value);
+                var number2 = parseFloat(document.getElementById("num2").value);
+                var resultado = number1 + number2;
+                var elTotal = document.getElementById("total");
+
+                elTotal.value=resultado;
+
+
+                //alert("A soma total é : " + resultado);
+            }
+            subtrair() {
+                var n1 = parseFloat(document.getElementById("num1").value);
+                var n2 = parseFloat(document.getElementById("num2").value);
+                
+                    var resultado = n1 - n2;
+      
+
+                var elTotal = document.getElementById("total");
+                elTotal.value=resultado;
+
+               // alert("A subtração é : " + resultado);
+            }
+            multiplicar() {
+                //var n1 = parseFloat(document.querySelectorAll("input")[0].value);
+                //var n2 = parseFloat(document.querySelectorAll("input")[1].value);
+                var n1 = parseFloat(document.getElementById("num1").value);
+                var n2 = parseFloat(document.getElementById("num2").value);
+                var resultado = n1 * n2;
+
+                var elTotal = document.getElementById("total");
+                elTotal.value=resultado;
+               // alert("A multiplicação é : " + resultado);
+            }
+            dividir() {
+               // var n1 = parseFloat(document.querySelectorAll("input")[0].value);
+                //var n2 = parseFloat(document.querySelectorAll("input")[1].value);
+                var n1 = parseFloat(document.getElementById("num1").value);
+                var n2 = parseFloat(document.getElementById("num2").value);
+                if (n2 == 0) {
+                    alert("Não existe número divisível por zero");
+                } else {
+                    var resultado = n1 / n2;
+                }
+
+                var elTotal = document.getElementById("total");
+                elTotal.value=resultado;
+                //alert("A divisão é de : " + resultado);
+            }
+        }
+        var c = new Calculadora();
+    </script>
+</head>
+
+<body>
+    <div style="background-color: blue;width: 50rem;height: 20rem;text-align: center; margin-left: 250px;">
+        <h1 style="text-align: center;">Calculadora</h1>
+        <div style="background-color: cornsilk; width: 35rem;; margin: auto;">
+            <input type="text" id="total" style=" text-align: center; font-size: 25px; width: 35rem; height: 2rem; background-color:white;" />
+        </div>
+        <br>
+        Numero 1 : <input type="number" id="num1" placeholder="numero 1" style="width: 10rem; height: 2rem;"/>
+        Numero 2 :<input type="number" id="num2" placeholder="numero 2" style="width: 10rem; height: 2rem;"/><br><br>
+        <button onclick="c.somar()">Somar</button>
+        <button onclick="c.subtrair()">Subtrair</button>
+        <button onclick="c.multiplicar()">Multiplicar</button>
+        <button onclick="c.dividir()">Dividir</button>
+    </div>
+</body>
+
+</html>
