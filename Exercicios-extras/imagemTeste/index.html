@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Frutas</title>
+    
+    <script>
+        
+        
+        var arrFrutas = [
+            {
+                id: 1,
+                nome: 'banana',
+                img: 'https://images.pexels.com/photos/2280926/pexels-photo-2280926.jpeg?cs=srgb&dl=pexels-kimona-2280926.jpg&fm=jpg'
+            },
+            {
+                id: 2,
+                nome: 'pera',
+                img: 'https://images.pexels.com/photos/568471/pexels-photo-568471.jpeg?cs=srgb&dl=pexels-mali-maeder-568471.jpg&fm=jpg'
+            },
+            {
+                id: 3,
+                nome: 'uva',
+                img: 'https://images.pexels.com/photos/708777/pexels-photo-708777.jpeg?cs=srgb&dl=pexels-kaichieh-chan-708777.jpg&fm=jpg'
+            },
+            {
+                id: 4,
+                nome: 'maçã',
+                img: 'https://images.pexels.com/photos/1510392/pexels-photo-1510392.jpeg?cs=srgb&dl=pexels-suzy-hazelwood-1510392.jpg&fm=jpg'
+            },
+            {
+                id: 5,
+                nome: 'laranja',
+                img: 'https://images.pexels.com/photos/42059/citrus-diet-food-fresh-42059.jpeg?cs=srgb&dl=pexels-public-domain-pictures-42059.jpg&fm=jpg'
+            },
+        ];
+        var arrCarrinho = [];
+
+        function listar() {
+            let strLista = '';
+            arrFrutas.forEach((fruta, indice) => {
+                
+                    strLista += `
+                    <div class="card col-sm-4 p-1 text-center">
+                        <div class="card-title m-1"><h4>${fruta.nome}</h4></div>
+                        <div class="card-body">
+                            <img src='${fruta.img}' class="card-img-top" width="250" height="250" onclick='clickAddFruta(${indice})'>
+                        </div>
+                    </div>    
+                    `
+            });
+            
+            
+            document.getElementById('saida').innerHTML = strLista;
+            
+        }
+
+        
+        
+        function clickAddFruta(indice) {
+            
+            let fruta = arrFrutas[indice]
+            arrCarrinho.push(fruta)
+            listarCarrinho()
+        }
+        
+        function clickRemoveFruta(id){
+            let indice = arrCarrinho.findIndex((fruta,indice)=>fruta.id==id);
+            this.arrCarrinho.splice(indice,1);
+            listarCarrinho();
+        }
+        function getCountImage(id){            
+            let frutas = this.arrCarrinho.filter(fruta=>fruta.id==id);
+            return frutas.length;
+        }
+
+        function listarCarrinho(){
+            let strCarrinho = '';
+            let contFruta=0;
+            let arrCarrinhoOrdenadoPorId = arrCarrinho.sort((a,b)=> a.id - b.id);
+            arrCarrinho = arrCarrinhoOrdenadoPorId;
+            let id = 0;
+            
+            arrCarrinho.forEach((frutaCarrinho,indice) => {
+                contFruta = getCountImage(frutaCarrinho.id);
+
+                if(frutaCarrinho.id>id){
+                    id=frutaCarrinho.id;
+                    strCarrinho += `
+                    <div class="card col-sm-4 p-1 text-center">
+                        <div class="card-title"><h4>${frutaCarrinho.nome} :${contFruta} </h4></div>
+                        <div class="card-body">
+                            <img src='${frutaCarrinho.img}' onclick="clickRemoveFruta(${frutaCarrinho.id})" width="250" height="250">
+                        </div>
+                    </div> 
+                    
+                    `
+                }
+            });
+            document.getElementById('carrinho').innerHTML = strCarrinho
+            
+        }
+        
+
+    </script>
+</head>
+
+<body onload="listar()">
+   
+        <div class="container">
+            <h3 class="text-center">Lista de frutas</h3>
+            <div class="row" id="saida">                
+                
+            </div>
+        </div>
+        <hr>
+        <div class="container mt-3 carrinho">
+            <h3 class="text-center">Frutas Selecionadas</h3>
+            <div class="row" id="carrinho">
+                
+            </div>
+        </div>   
+    
+    
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</html>
