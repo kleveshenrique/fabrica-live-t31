@@ -8,39 +8,39 @@
     <title>Frutas</title>
     
     <script>
-        
-        
+           
         var arrFrutas = [
             {
                 id: 1,
-                nome: 'banana',
+                nome: 'banana',            
                 img: 'https://images.pexels.com/photos/2280926/pexels-photo-2280926.jpeg?cs=srgb&dl=pexels-kimona-2280926.jpg&fm=jpg'
             },
             {
                 id: 2,
-                nome: 'pera',
+                nome: 'pera',                
                 img: 'https://images.pexels.com/photos/568471/pexels-photo-568471.jpeg?cs=srgb&dl=pexels-mali-maeder-568471.jpg&fm=jpg'
             },
             {
                 id: 3,
-                nome: 'uva',
+                nome: 'uva',                
                 img: 'https://images.pexels.com/photos/708777/pexels-photo-708777.jpeg?cs=srgb&dl=pexels-kaichieh-chan-708777.jpg&fm=jpg'
             },
             {
                 id: 4,
-                nome: 'maçã',
+                nome: 'maçã',                
                 img: 'https://images.pexels.com/photos/1510392/pexels-photo-1510392.jpeg?cs=srgb&dl=pexels-suzy-hazelwood-1510392.jpg&fm=jpg'
             },
             {
                 id: 5,
-                nome: 'laranja',
+                nome: 'laranja',                
                 img: 'https://images.pexels.com/photos/42059/citrus-diet-food-fresh-42059.jpeg?cs=srgb&dl=pexels-public-domain-pictures-42059.jpg&fm=jpg'
             },
         ];
-        var arrCarrinho = [];
-
+        var arrCarrinho = [];  
+        var arrQtdsCarrinho=[];
         function listar() {
             let strLista = '';
+            document.getElementById("divCarrinho").style.display="none";
             arrFrutas.forEach((fruta, indice) => {
                 
                     strLista += `
@@ -57,19 +57,36 @@
             document.getElementById('saida').innerHTML = strLista;
             
         }
-
         
-        
-        function clickAddFruta(indice) {
+        function clickAddFruta(indice) {            
+            let fruta = arrFrutas[indice];            
             
-            let fruta = arrFrutas[indice]
-            arrCarrinho.push(fruta)
+            if(!checkFruta(arrCarrinho,fruta.id)){
+                arrCarrinho.push(fruta);                
+                arrQtdsCarrinho.push(1);
+            }else{
+                let indice = arrCarrinho.indexOf(fruta);
+                arrQtdsCarrinho[indice]++ ;
+            }            
+
+            document.getElementById("divCarrinho").style.display="block";           
             listarCarrinho()
         }
+        function checkFruta(arr, id){
+             return arr.some(
+                element=> element.id==id
+             );
+         }
         
-        function clickRemoveFruta(id){
-            let indice = arrCarrinho.findIndex((fruta,indice)=>fruta.id==id);
-            this.arrCarrinho.splice(indice,1);
+        function clickRemoveFruta(indice){
+            let qtd = arrQtdsCarrinho[indice];
+            if (qtd==1) {
+                this.arrCarrinho.splice(indice,1);
+                arrQtdsCarrinho.splice(indice,1);
+            }else{
+                arrQtdsCarrinho[indice]--;
+            }
+
             listarCarrinho();
         }
         function getCountImage(id){            
@@ -80,25 +97,25 @@
         function listarCarrinho(){
             let strCarrinho = '';
             let contFruta=0;
-            let arrCarrinhoOrdenadoPorId = arrCarrinho.sort((a,b)=> a.id - b.id);
-            arrCarrinho = arrCarrinhoOrdenadoPorId;
-            let id = 0;
-            
+            // let arrCarrinhoOrdenadoPorId = arrCarrinho.sort((a,b)=> a.id - b.id);
+            //arrCarrinho = arrCarrinhoOrdenadoPorId;
+            //let id = 0;
+            if(arrCarrinho.length==0){
+                document.getElementById("divCarrinho").style.display="none";
+            }
             arrCarrinho.forEach((frutaCarrinho,indice) => {
-                contFruta = getCountImage(frutaCarrinho.id);
+                contFruta = arrQtdsCarrinho[indice];
 
-                if(frutaCarrinho.id>id){
-                    id=frutaCarrinho.id;
                     strCarrinho += `
                     <div class="card col-sm-4 p-1 text-center">
                         <div class="card-title"><h4>${frutaCarrinho.nome} :${contFruta} </h4></div>
                         <div class="card-body">
-                            <img src='${frutaCarrinho.img}' onclick="clickRemoveFruta(${frutaCarrinho.id})" width="250" height="250">
+                            <img src='${frutaCarrinho.img}' onclick="clickRemoveFruta(${indice})" width="250" height="250">
                         </div>
                     </div> 
                     
                     `
-                }
+                
             });
             document.getElementById('carrinho').innerHTML = strCarrinho
             
@@ -117,7 +134,7 @@
             </div>
         </div>
         <hr>
-        <div class="container mt-3 carrinho">
+        <div class="container mt-3 " id="divCarrinho">
             <h3 class="text-center">Frutas Selecionadas</h3>
             <div class="row" id="carrinho">
                 
